@@ -1,0 +1,42 @@
+---
+import Layout from '/src/layouts/Layout.astro';
+import { db, Comment } from "astro:db";
+
+const comments = await db.select().from(Comment);
+---
+
+<Layout>
+  <h1>Astro Actionsに基づいたコメント</h1>
+  
+  <form style="display: grid">
+    <label for="author">Author</label>
+    <input id="author" name="author" />
+
+    <label for="body">Body</label>
+    <textarea id="body" name="body"></textarea>
+
+    <button id="button-submit">Submit</button>
+  </form>
+
+	{comments.map(({ author, body }) => (
+  <article>
+    <h2>{author}</h2>
+    <p>{body}</p>
+  </article>
+))}
+</Layout>
+
+<script>
+import { actions } from 'astro:actions';
+
+const button = document.querySelector('#button-submit');
+const authorInput = document.querySelector('#author');
+const bodyInput = document.querySelector('#body');
+button?.addEventListener('click', async () => {
+  if(!authorInput || !bodyInput) return;
+  const author = authorInput.value;
+  const body = bodyInput.value;
+  const { data, error } = await actions.addComment({ author, body });
+  if (!error) alert(data[0].body);
+})
+</script>
