@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { db, Comment } from "astro:db";
+
+if (Astro.request.method === 'POST') {
+  // POSTリクエストのフォームデータを解析します。
+  const formData = await Astro.request.formData();
+  const author = formData.get('author');
+  const body = formData.get('body');
+
+  if (typeof author === 'string' && typeof body === 'string') {
+    // Commentテーブルに行を挿入します。
+    await db.insert(Comment).values({ author, body });
+  }
+}
+
+// 新しいコメントリストを各リクエストでレンダリングします。
+const comments = await db.select().from(Comment);
+
+---
+
+<Layout>
+  <h1>POSTリクエストに基づいたコメント</h1>
+  
+  <form method="POST" style="display: grid">
+    <label for="author">Author</label>
+    <input id="author" name="author" />
+
+    <label for="body">Body</label>
+    <textarea id="body" name="body"></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+
+	{comments.map(({ author, body }) => (
+  <article>
+    <h2>{author}</h2>
+    <p>{body}</p>
+  </article>
+))}
+</Layout>
