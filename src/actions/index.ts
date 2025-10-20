@@ -18,4 +18,12 @@ export const server = {
       return updatedComments;
     },
   }),
+  getGreeting: defineAction({
+    input: z.object({
+      name: z.string(),
+    }),
+    handler: async (input) => {
+      return `Hello, ${input.name}!`;
+    }
+  })
 };
