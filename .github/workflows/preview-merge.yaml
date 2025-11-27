@@ -21,3 +21,5 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: preview-promotion
+          title: "preview ← main"
+          delete-branch: true

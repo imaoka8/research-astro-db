@@ -21,3 +21,5 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: staging-promotion
+          title: "staging ← main"
+          delete-branch: true

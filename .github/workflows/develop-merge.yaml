@@ -21,3 +21,5 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           branch: develop-promotion
+          title: "develop ← main"
+          delete-branch: true
