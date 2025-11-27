@@ -20,9 +20,12 @@ jobs:
         run: |
           git fetch origin main:main
           git reset --hard main
+      - name: Get timestamp
+        id: date
+        run: echo "date=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
           branch: ${{ matrix.branch }}-promotion
-          title: "${{ matrix.branch }} ← main"
+          title: "${{ matrix.branch }} ← main [${{ steps.date.outputs.date }}]"
           delete-branch: true
