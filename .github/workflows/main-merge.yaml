@@ -28,4 +28,5 @@ jobs:
         with:
           branch: ${{ matrix.branch }}-promotion
           title: "${{ matrix.branch }} ← main [${{ steps.date.outputs.date }}]"
+          body: "このPRは自動生成されました。mainブランチの最新の変更を${{ matrix.branch }}に反映します。"
           delete-branch: true
