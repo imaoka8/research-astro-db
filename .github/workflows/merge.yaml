@@ -1,0 +1,27 @@
+name: Sync main → staging
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create PR main → staging
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: auto/sync-main-to-staging
+          base: staging
+          title: "Sync main → staging"
+          body: "Automated PR created by GitHub Actions"
+          delete-branch: true
