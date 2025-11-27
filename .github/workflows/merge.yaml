@@ -20,22 +20,8 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2
-      - run: |
-          gem install --no-document git-pr-release
-          gem install --no-document faraday-retry
-      - name: Check if there are changes to release
-        id: check_changes
-        run: |
-          if git diff --quiet origin/main..origin/staging; then
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-            echo "No changes between main and staging branches"
-          else
-            echo "has_changes=true" >> $GITHUB_OUTPUT  
-            echo "Changes found between main and staging branches"
-          fi
-      - name: Run git-pr-release
-        if: steps.check_changes.outputs.has_changes == 'true'
-        run: git-pr-release --squashed
+      - run: gem install --no-document git-pr-release
+      - run: git-pr-release --squashed
         env:
           GIT_PR_RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_PR_RELEASE_BRANCH_PRODUCTION: main
@@ -43,6 +29,3 @@ jobs:
           GIT_PR_RELEASE_LABELS: pr-release
           # GIT_PR_RELEASE_TEMPLATE: .github/git-pr-release.erb
           TZ: Asia/Tokyo
-      - name: No changes to release
-        if: steps.check_changes.outputs.has_changes == 'false'
-        run: echo "✅ No changes to release - staging and main branches are in sync"
