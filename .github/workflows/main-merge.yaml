@@ -26,7 +26,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          branch: ${{ matrix.branch }}-promotion
+          branch: main
           title: "${{ matrix.branch }} ← main [${{ steps.date.outputs.date }}]"
           body: "このPRは自動生成されました。mainブランチの最新の変更を${{ matrix.branch }}ブランチに反映します。"
           delete-branch: true
