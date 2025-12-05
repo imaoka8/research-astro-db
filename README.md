@@ -2,4 +2,3 @@
 
 astro db調査用リポジトリ
 
-mainテスト
