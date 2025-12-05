@@ -1,4 +1,4 @@
-name: Create promotion pull requests
+name: Create pull requests
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ permissions:
   contents: write
   pull-requests: write
 jobs:
-  promotion:
+  create-pull-requests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,4 +29,3 @@ jobs:
           branch: main
           title: "${{ matrix.branch }} ← main [${{ steps.date.outputs.date }}]"
           body: "このPRは自動生成されました。mainブランチの最新の変更を${{ matrix.branch }}ブランチに反映します。"
-          delete-branch: true
